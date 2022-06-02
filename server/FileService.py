@@ -106,7 +106,7 @@ def get_file_data(filename: str) -> dict:
         return FileInfoDict
 
     except:
-        print("Файл не найден")
+        logging.info('File not found')
 
 
 
