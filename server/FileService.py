@@ -1,6 +1,6 @@
 import os
 import sys
-
+import logging
 
 
 def change_dir(path: str, autocreate: bool = True) -> None:
@@ -17,8 +17,11 @@ def change_dir(path: str, autocreate: bool = True) -> None:
 
     error=sys.stderr
     if os.path.exists(path):
+        logging.info('Path true')
         error.write("Директория есть")
+
     elif autocreate == True:
+        logging.info('Dict create')
         error.write("Создали директорию ")
         os.chdir(path)
         os.mkdir(path, mode=0o777)
@@ -42,6 +45,7 @@ def get_files(path) -> list:
 
 
     AllFiles = os.listdir(path) # получить список файлов в каталоге
+    logging.info('getting files list')
 
     returnlist =[]
 
@@ -89,6 +93,7 @@ def get_file_data(filename: str) -> dict:
     try:
         with open(filename, 'r') as file:
             data = file.read()
+            logging.info('File exist')
 
         FileInfoDict = {}
         statinfo = os.stat(filename)
@@ -126,8 +131,10 @@ def create_file(filename: str, content: str = None) -> dict:
     try:
         with open(filename, '+r') as file:
             file.write(content)
+            logging.info('File create')
     except:
-        print("Ошибка")
+        logging.error('error create')
+
 
 
 
@@ -142,6 +149,6 @@ def delete_file(filename: str) -> None:
         ValueError: if filename is invalid.
     """
     os.remove(filename)
-    print("Done!")
+    logging.info('File deleted')
 
 
