@@ -1,7 +1,7 @@
 import os
+import sys
 
 
-# path = 'C:\script007\server\ForFile'
 
 def change_dir(path: str, autocreate: bool = True) -> None:
     """Change current directory of app.
@@ -15,16 +15,15 @@ def change_dir(path: str, autocreate: bool = True) -> None:
         ValueError: if path is invalid.
     """
 
-
+    error=sys.stderr
     if os.path.exists(path):
-        print("Директория есть")
-        pass
-    else:
-        print("Создали директорию ")
-        autocreate = os.mkdir(path, mode=0o777)
-        return autocreate
+        error.write("Директория есть")
+    elif autocreate == True:
+        error.write("Создали директорию ")
+        os.chdir(path)
+        os.mkdir(path, mode=0o777)
 
-    pass
+
 
 
 def get_files(path) -> list:
@@ -39,12 +38,7 @@ def get_files(path) -> list:
     """
 
     # Словарь
-    FileInfoDict = {
-        'name':"",
-        'create_date':"",
-        'edit_date':"",
-        'size': "",
-    }
+
 
 
     AllFiles = os.listdir(path) # получить список файлов в каталоге
@@ -52,6 +46,12 @@ def get_files(path) -> list:
     returnlist =[]
 
     for i in AllFiles: # проходим по всем файлам
+        FileInfoDict = {
+            'name': "",
+            'create_date': "",
+            'edit_date': "",
+            'size': "",
+        }
 
         statinfo = os.stat(path + i) # получаем инфу по файлу
 
@@ -128,7 +128,7 @@ def create_file(filename: str, content: str = None) -> dict:
             file.write(content)
     except:
         print("Ошибка")
-        pass
+
 
 
 def delete_file(filename: str) -> None:
